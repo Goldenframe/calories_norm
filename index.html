@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Калькулятор калорий</title>
+    <link rel="stylesheet" href="./dist/css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png?" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png?" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="calory-calculator">
+      <h1 class="calory-calculator__title">Калькулятор калорий</h1>
+      <form
+        action=""
+        id="calory-calculator-form"
+        class="calory-calculator__form"
+      >
+        <p class="calory-calculator__text">Выберите ваш пол:</p>
+        <label for="input-gender-male" class="calory-calculator__label">
+          Мужчина
+          <input
+            type="radio"
+            name="gender"
+            id="input-gender-male"
+            value="male"
+            required
+            onchange="calculateCalories()"
+            class="calory-calculator__input calory-calculator__input--radio"
+          />
+        </label>
+        <label for="input-gender-female" class="calory-calculator__label">
+          Женщина
+          <input
+            type="radio"
+            name="gender"
+            id="input-gender-female"
+            value="female"
+            required
+            onchange="calculateCalories()"
+            class="calory-calculator__input calory-calculator__input--radio"
+          />
+        </label>
+        <label for="input-age" class="calory-calculator__label">
+          Введите ваш возраст:
+          <input
+            type="number"
+            id="input-age"
+            name="age"
+            required
+            onchange="calculateCalories()"
+            min="0"
+            max="120"
+            class="calory-calculator__input calory-calculator__input--number"
+          />
+        </label>
+        <label for="input-height" class="calory-calculator__label">
+          Введите ваш рост в см:
+          <input
+            type="number"
+            id="input-height"
+            name="height"
+            required
+            onchange="calculateCalories()"
+            min="0"
+            max="250"
+            class="calory-calculator__input calory-calculator__input--number"
+          />
+        </label>
+        <label for="input-weight" class="calory-calculator__label">
+          Введите ваш вес в кг:
+          <input
+            type="number"
+            id="input-weight"
+            name="weight"
+            required
+            onchange="calculateCalories()"
+            min="0"
+            class="calory-calculator__input calory-calculator__input--number"
+          />
+        </label>
+        <label for="input-lifestyle" class="calory-calculator__label">
+          Выберите уровень подвижности:
+          <input
+            type="range"
+            id="input-lifestyle"
+            name="lifestyle"
+            required
+            min="0"
+            max="6"
+            class="calory-calculator__input calory-calculator__input--range"
+            onchange="calculateCalories()"
+          />
+          <span
+            id="lifestyle-description"
+            class="calory-calculator__lifestyle-description"
+          >
+            Интенсивные тренировки 5 раз в неделю
+          </span>
+        </label>
+        <label for="select-goal" class="calory-calculator__label">
+          Выберите цель:
+          <select
+            id="select-goal"
+            name="goal"
+            class="calory-calculator__select"
+            onchange="calculateCalories()"
+          >
+            <option value="rapidWeightLoss" class="calory-calculator__option">
+              Быстрый сброс веса
+            </option>
+            <option
+              value="moderateWeightLoss"
+              class="calory-calculator__option"
+            >
+              Медленный сброс веса
+            </option>
+            <option
+              value="weightMaintanance"
+              selected
+              class="calory-calculator__option"
+            >
+              Сохранение нынешнего веса
+            </option>
+            <option
+              value="moderateWeightGain"
+              class="calory-calculator__option"
+            >
+              Медленный набор веса
+            </option>
+            <option value="rapidWeightGain" class="calory-calculator__option">
+              Быстрый набор веса
+            </option>
+          </select>
+        </label>
+        <p class="calory-calculator__text">Выберите формулу расчёта:</p>
+        <label for="input-bmr-harris-benedict" class="calory-calculator__label">
+          Формула Харриса-Бенедикта
+          <input
+            type="radio"
+            name="bmr"
+            id="input-bmr-harris-benedict"
+            value="bmr-harris-benedict"
+            required
+            onchange="calculateCalories()"
+            class="calory-calculator__input calory-calculator__input--radio"
+          />
+        </label>
+        <label for="input-bmr-mifflin-st-jeor" class="calory-calculator__label">
+          Формула Миффлина-Сан Жеор
+          <input
+            type="radio"
+            name="bmr"
+            id="input-bmr-mifflin-st-jeor"
+            value="bmr-mifflin-st-jeor"
+            required
+            onchange="calculateCalories()"
+            class="calory-calculator__input calory-calculator__input--radio"
+          />
+        </label>
+        <div class="calory-calculator__buttons">
+          <button
+            type="submit"
+            class="calory-calculator__button calory-calculator__button--submit"
+          >
+            Вычислить
+          </button>
+          <button
+            type="reset"
+            class="calory-calculator__button calory-calculator__button--reset"
+            id="reset-button"
+          >
+            Очистить форму
+          </button>
+        </div>
+      </form>
+      <div
+        class="calory-calculator__result-container hidden"
+        id="result-container"
+      >
+        <div id="warning" class="calory-calculator__warning"></div>
+        <div id="result" class="calory-calculator__result"></div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

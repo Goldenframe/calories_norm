@@ -1,0 +1,160 @@
+$primary-color: rgb(251, 254, 236);
+$secondary-color: rgb(205, 226, 109);
+$secondary-darker-color: darken($color: $secondary-color, $amount: 20);
+$accent-color: rgb(244, 117, 81);
+$text-color: rgb(51, 51, 51);
+$text-font-size: 18px;
+
+@mixin elements-settings {
+    font-size: $text-font-size;
+    padding: 10px;
+    border: $secondary-color 3px solid;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: $primary-color;
+    color: $text-color;
+    font-family: "Nunito", sans-serif;
+}
+
+.calory-calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+
+    &__title {
+        margin-bottom: 20px;
+    }
+
+    &__text {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    &__form {
+        @include elements-settings();
+        border-radius: 30px;
+        width: 500px;
+        padding: 30px;
+
+        @media (max-width: 768px) {
+            width: 90%;
+            padding: 20px;
+        }
+
+        @media (max-width: 480px) {
+            padding: 15px;
+        }
+    }
+
+    &__label {
+        display: flex;
+        margin-bottom: 15px;
+
+        &:not([for="input-gender-male"]):not([for="input-gender-female"]):not([for="input-bmr-harris-benedict"]):not([for="input-bmr-mifflin-st-jeor"]) {
+            flex-direction: column;
+            font-weight: bold;
+        }
+    }
+
+    &__input,
+    &__select {
+        @include elements-settings();
+        border-radius: 15px;
+        padding-left: 20px;
+
+        &:focus {
+            border: $accent-color 3px solid;
+        }
+
+        &--radio {
+            accent-color: $secondary-darker-color;
+            margin-left: 10px;
+        }
+
+        &--range {
+            accent-color: $secondary-darker-color;
+        }
+    }
+
+    &__lifestyle-description {
+        font-weight: normal;
+    }
+
+    &__option {
+        &:checked {
+            background-color: $secondary-color;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-evenly;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    &__button {
+        background-color: $secondary-color;
+        border: none;
+        border-radius: 15px;
+        padding: 15px 30px;
+        margin-top: 20px;
+        font-size: $text-font-size;
+        color: $text-color;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.4s;
+
+        &--submit {
+            &:hover {
+                background-color: $secondary-darker-color;
+            }
+        }
+
+        &--reset {
+            &:hover {
+                background-color: $accent-color;
+            }
+        }
+    }
+
+    &__result-container {
+        font-size: $text-font-size + 2px;
+        font-weight: bold;
+        @include elements-settings();
+        border-radius: 30px;
+        width: 500px;
+        padding: 30px;
+        text-align: center;
+        margin: 20px 0;
+
+        @media (max-width: 768px) {
+            width: 90%;
+            padding: 20px;
+        }
+    }
+
+    &__warning {
+        color: $accent-color;
+        margin-bottom: 10px;
+    }
+}
+
+form input[type="text"],
+form input[type="number"],
+form select,
+form input[type="range"] {
+    margin-top: 8px;
+}
+
+.hidden {
+    display: none;
+}

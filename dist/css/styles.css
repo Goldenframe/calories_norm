@@ -1,0 +1,133 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: rgb(251, 254, 236);
+  color: rgb(51, 51, 51);
+  font-family: "Nunito", sans-serif;
+}
+
+.calory-calculator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+.calory-calculator__title {
+  margin-bottom: 20px;
+}
+.calory-calculator__text {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.calory-calculator__form {
+  font-size: 18px;
+  padding: 10px;
+  border: rgb(205, 226, 109) 3px solid;
+  border-radius: 30px;
+  width: 500px;
+  padding: 30px;
+}
+@media (max-width: 768px) {
+  .calory-calculator__form {
+    width: 90%;
+    padding: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .calory-calculator__form {
+    padding: 15px;
+  }
+}
+.calory-calculator__label {
+  display: flex;
+  margin-bottom: 15px;
+}
+.calory-calculator__label:not([for=input-gender-male]):not([for=input-gender-female]):not([for=input-bmr-harris-benedict]):not([for=input-bmr-mifflin-st-jeor]) {
+  flex-direction: column;
+  font-weight: bold;
+}
+.calory-calculator__input, .calory-calculator__select {
+  font-size: 18px;
+  padding: 10px;
+  border: rgb(205, 226, 109) 3px solid;
+  border-radius: 15px;
+  padding-left: 20px;
+}
+.calory-calculator__input:focus, .calory-calculator__select:focus {
+  border: rgb(244, 117, 81) 3px solid;
+}
+.calory-calculator__input--radio, .calory-calculator__select--radio {
+  accent-color: #a6c227;
+  margin-left: 10px;
+}
+.calory-calculator__input--range, .calory-calculator__select--range {
+  accent-color: #a6c227;
+}
+.calory-calculator__lifestyle-description {
+  font-weight: normal;
+}
+.calory-calculator__option:checked {
+  background-color: rgb(205, 226, 109);
+}
+.calory-calculator__buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+@media (max-width: 768px) {
+  .calory-calculator__buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.calory-calculator__button {
+  background-color: rgb(205, 226, 109);
+  border: none;
+  border-radius: 15px;
+  padding: 15px 30px;
+  margin-top: 20px;
+  font-size: 18px;
+  color: rgb(51, 51, 51);
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.calory-calculator__button--submit:hover {
+  background-color: #a6c227;
+}
+.calory-calculator__button--reset:hover {
+  background-color: rgb(244, 117, 81);
+}
+.calory-calculator__result-container {
+  font-size: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px;
+  border: rgb(205, 226, 109) 3px solid;
+  border-radius: 30px;
+  width: 500px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+}
+@media (max-width: 768px) {
+  .calory-calculator__result-container {
+    width: 90%;
+    padding: 20px;
+  }
+}
+.calory-calculator__warning {
+  color: rgb(244, 117, 81);
+  margin-bottom: 10px;
+}
+
+form input[type=text],
+form input[type=number],
+form select,
+form input[type=range] {
+  margin-top: 8px;
+}
+
+.hidden {
+  display: none;
+}/*# sourceMappingURL=styles.css.map */
