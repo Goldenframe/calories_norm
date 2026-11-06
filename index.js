@@ -1,4 +1,5 @@
-var lifestyleCoefArray = [
+"use strict";
+const lifestyleCoefArray = [
     {
         inputValue: 0,
         lifestyleCoef: 1.2,
@@ -35,43 +36,42 @@ var lifestyleCoefArray = [
         lifestyleDescription: 'Ежедневная нагрузка + физическая работа'
     }
 ];
-var submitClicked = false;
-var caloryCalculatorForm = document.getElementById("calory-calculator-form");
-var inputLifestyle = document.getElementById("input-lifestyle");
-var inputWeight = document.getElementById("input-weight");
-var inputHeight = document.getElementById("input-height");
-var inputDescription = document.getElementById("input-description");
-var inputAge = document.getElementById("input-age");
-var inputGenderMale = document.getElementById("input-gender-male");
-var inputGenderFemale = document.getElementById("input-gender-female");
-var selectGoal = document.getElementById("select-goal");
-var inputHarrisBenedict = document.getElementById("input-bmr-harris-benedict");
-var inputMifflinStJeor = document.getElementById("input-bmr-mifflin-st-jeor");
-var lifestyleDescription = document.getElementById("lifestyle-description");
-var resultContainer = document.getElementById('result-container');
-var result = document.getElementById('result');
-var warning = document.getElementById('warning');
-caloryCalculatorForm.addEventListener('submit', function (e) {
+let hasSubmitted = false;
+const caloryCalculatorForm = document.getElementById("calory-calculator-form");
+const inputLifestyle = document.getElementById("input-lifestyle");
+const inputWeight = document.getElementById("input-weight");
+const inputHeight = document.getElementById("input-height");
+const inputAge = document.getElementById("input-age");
+const inputGenderMale = document.getElementById("input-gender-male");
+const inputGenderFemale = document.getElementById("input-gender-female");
+const selectGoal = document.getElementById("select-goal");
+const inputHarrisBenedict = document.getElementById("input-bmr-harris-benedict");
+const lifestyleDescription = document.getElementById("lifestyle-description");
+const resultContainer = document.getElementById('result-container');
+const result = document.getElementById('result');
+const warning = document.getElementById('warning');
+caloryCalculatorForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    calculateCalories();
-    resultContainer.classList.remove("hidden");
+    hasSubmitted = true;
+    if (!updateResult())
+        return;
     window.scrollTo({
         top: document.body.scrollHeight,
         behavior: 'smooth'
     });
 });
-var calculateCalories = function () {
-    var weight = parseFloat(inputWeight.value);
-    var height = parseFloat(inputHeight.value);
-    var age = parseFloat(inputAge.value);
-    var goal = selectGoal.value;
-    var calories = 0;
-    for (var i = 0; i < lifestyleCoefArray.length; i++) {
-        if (parseInt(inputLifestyle.value) === lifestyleCoefArray[i].inputValue) {
+const calculateCalories = () => {
+    const weight = inputWeight.valueAsNumber;
+    const height = inputHeight.valueAsNumber;
+    const age = inputAge.valueAsNumber;
+    const goal = selectGoal.value;
+    let calories = 0;
+    for (let i = 0; i < lifestyleCoefArray.length; i++) {
+        if (inputLifestyle.valueAsNumber === lifestyleCoefArray[i].inputValue) {
             if (inputGenderMale.checked) {
-                var bmrHarrisBenedict = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
-                var bmrMifflinStJeor = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-                var bmr = inputHarrisBenedict.checked ? bmrHarrisBenedict : bmrMifflinStJeor;
+                const bmrHarrisBenedict = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+                const bmrMifflinStJeor = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+                const bmr = inputHarrisBenedict.checked ? bmrHarrisBenedict : bmrMifflinStJeor;
                 switch (goal) {
                     case "rapidWeightLoss":
                         calories = Math.round(bmr * lifestyleCoefArray[i].lifestyleCoef) - 1000;
@@ -91,9 +91,9 @@ var calculateCalories = function () {
                 }
             }
             else {
-                var bmrHarrisBenedict = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
-                var bmrMifflinStJeor = (10 * weight) + (6.25 * height) - (5 * age) - 161;
-                var bmr = inputHarrisBenedict.checked ? bmrHarrisBenedict : bmrMifflinStJeor;
+                const bmrHarrisBenedict = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+                const bmrMifflinStJeor = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+                const bmr = inputHarrisBenedict.checked ? bmrHarrisBenedict : bmrMifflinStJeor;
                 switch (goal) {
                     case "rapidWeightLoss":
                         calories = Math.round(bmr * lifestyleCoefArray[i].lifestyleCoef) - 1000;
@@ -112,7 +112,9 @@ var calculateCalories = function () {
                         break;
                 }
             }
-            result.textContent = "\u0414\u043B\u044F \u0434\u043E\u0441\u0442\u0438\u0436\u0435\u043D\u0438\u044F \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0439 \u0446\u0435\u043B\u0438 \u0412\u0430\u043C \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u043F\u043E\u0442\u0440\u0435\u0431\u043B\u044F\u0442\u044C ".concat(calories.toString(), " \u043A\u0430\u043B\u043E\u0440\u0438\u0439 \u0432 \u0434\u0435\u043D\u044C.");
+            result.textContent = Number.isFinite(calories) && calories > 0
+                ? `Расчётная оценка: ${calories} ккал в день.`
+                : "Для этих значений не удалось получить корректную оценку.";
             if ((inputGenderMale.checked && (calories < 1500 || calories > 3000)) || (inputGenderFemale.checked && (calories < 1200 || calories > 2500))) {
                 warning.textContent = "Предупреждение: данная суточная норма калорий может быть опасна для организма.";
             }
@@ -122,13 +124,34 @@ var calculateCalories = function () {
         }
     }
 };
-caloryCalculatorForm.addEventListener('reset', function (e) {
+function updateLifestyleDescription() {
+    var _a;
+    const lifestyle = lifestyleCoefArray.find(item => item.inputValue === inputLifestyle.valueAsNumber);
+    lifestyleDescription.textContent = (_a = lifestyle === null || lifestyle === void 0 ? void 0 : lifestyle.lifestyleDescription) !== null && _a !== void 0 ? _a : "";
+}
+function hideResult() {
     resultContainer.classList.add("hidden");
-});
-inputLifestyle.addEventListener('change', function () {
-    for (var i = 0; i < lifestyleCoefArray.length; i++) {
-        if (parseInt(inputLifestyle.value) === lifestyleCoefArray[i].inputValue) {
-            lifestyleDescription.textContent = lifestyleCoefArray[i].lifestyleDescription;
-        }
+    result.textContent = "";
+    warning.textContent = "";
+}
+function updateResult() {
+    if (!caloryCalculatorForm.checkValidity()) {
+        hideResult();
+        return false;
     }
+    calculateCalories();
+    resultContainer.classList.remove("hidden");
+    return true;
+}
+caloryCalculatorForm.addEventListener("input", (event) => {
+    if (event.target === inputLifestyle)
+        updateLifestyleDescription();
+    if (hasSubmitted)
+        updateResult();
 });
+caloryCalculatorForm.addEventListener("reset", () => {
+    hasSubmitted = false;
+    hideResult();
+    queueMicrotask(updateLifestyleDescription);
+});
+updateLifestyleDescription();
